@@ -5,7 +5,7 @@ body {
 header {
     display: flex;
     justify-content: space-between;
-    font-size: 35px;
+    font-size: 20px;
 }
 
 header * {
@@ -17,7 +17,7 @@ header * {
 }
 
 .intro {
-    font-size: 40px;
+    font-size: 30px;
     margin: auto;
     width: 60%;
     text-align: center;
@@ -27,9 +27,9 @@ header * {
 .btn {
     background-color: navy;
     color: white;
-    width: 30%;
+    /* width: 30%; */
     height: auto;
-    font-size: 35px;
+    font-size: 25px;
     margin: 10px 0;
     padding: 10px;
     text-align: left;
@@ -45,7 +45,7 @@ header * {
 }
 
 .question {
-    font-size: 40px;
+    font-size: 30px;
     margin: auto;
     width: 60%;
     display: flex;
@@ -59,16 +59,30 @@ header * {
 
 .end-screen {
     margin: auto;
-    font-size: 40px;
+    font-size: 30px;
     width: 60%;
 }
 
-.initialsInput {
+.end-screen * {
+    margin: 20px 0px;
+}
+
+.initials-form * {
+    margin-right: 10px;
+    font-size: 30px;
+}
+
+.initials-form button {
+    margin: auto;
+    padding: auto;
+    text-align: center;
+}
+
+/* .initialsInput {
     display: inline;
-    /* flex-direction: row; */
 }
 
 .initialsInput button {
     font-size: 25px;
     width: auto;
-}
+} */

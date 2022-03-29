@@ -1,9 +1,14 @@
-var startBtnEl = document.querySelector(`.start-btn`);
+// var startBtnEl = document.querySelector(`.start-btn`);
 var timerEl = document.querySelector(`.timer`);
-var introEl = document.querySelector(`.intro`);
+// var introEl = document.querySelector(`.intro`);
+
+highScores = [];
+
+var score = 0;
+var time = 75; //How long each quiz is
+var penaltyTime = 5; // How much time is taken off for an incorrect answer
 
 var questionIndex = 0;
-
 
 var questions = [
     {
@@ -89,9 +94,16 @@ var resultTextEl = document.createElement(`h3`);
 resultEl.appendChild(resultHrEl);
 resultEl.appendChild(resultTextEl);
 
-var score = 0;
-var time = 75; //How long each quiz is
-var penaltyTime = 5; // How much time is taken off for an incorrect answer
+var initialsFormEl = document.createElement('div');
+initialsFormEl.className = "initials-form";
+var submitButtonEl = document.createElement("button");
+submitButtonEl.textContent = "Submit";
+submitButtonEl.className = "btn";
+
+initialsFormEl.innerHTML = `<span>Enter initials: </span><input name='user-initials'></input>`;
+initialsFormEl.appendChild(submitButtonEl);
+
+
 
 // function that starts the quiz, sets counters to 0, starts the timer
 var startQuiz = function () {
@@ -118,8 +130,7 @@ var startQuiz = function () {
     //show new question
 
     // Hide the intro
-    introEl.remove();
-
+    document.querySelector(`.intro`).remove();
     document.body.appendChild(questionEl);
     updateQuestion();
 }
@@ -168,17 +179,28 @@ var endQuiz = function () {
     quizEndEl.innerHTML = `<h1>All done!</h1><p>Your final score is ${score}</p>`;
     quizEndEl.className = 'end-screen';
 
-    var initialsInputEl = document.createElement('div');
-    initialsInputEl.className = "initialsInput";
-
-    initialsFormEl.innerHTML = `<span>Enter initials: </span><button class="btn submit-btn">Submit</button>`;
-    var initialsInputEl = document.createElement('input');
-    initialsInputEl.className = "initials-input";
-
     quizEndEl.appendChild(initialsFormEl);
+
     document.body.appendChild(quizEndEl);
 }
 
-startBtnEl.addEventListener(`click`, startQuiz);
+var initialsFormHandler = function (event) {
+    event.preventDefault();
+
+    var userInitials = document.querySelector(`input[name="user-initials"]`).value;
+    if (!userInitials) {
+        alert("Please enter your initials.");
+        return false;
+    }
+    var result = { userInitials, score };
+    console.log(result.userInitials);
+    console.log(result);
+
+
+}
+
+document.querySelector(`.start-btn`).addEventListener(`click`, startQuiz);
 // Is there a better way to do this? I know I wanna propogate
 questionEl.addEventListener(`click`, checkAnswer);
+
+submitButtonEl.addEventListener(`click`, initialsFormHandler);
