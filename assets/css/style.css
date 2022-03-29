@@ -16,8 +16,6 @@ header {
     margin: 30px;
 }
 
-
-
 .intro {
     font-size: 40px;
     margin: auto;
@@ -29,8 +27,22 @@ header {
 .btn {
     background-color: navy;
     color: white;
+    width: 30%;
+    height: auto;
+    font-size: 35px;
+    margin: 10px 0;
+    padding: 10px;
+    text-align: left;
 }
 
 .btn:hover {
     background-color: blueviolet;
+}
+
+.question {
+    font-size: 40px;
+    margin: auto;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
 }

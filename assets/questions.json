@@ -1,0 +1,32 @@
+[
+    {
+        "questionText": "A very useful tool used during development and debugging for printint content to the debugger is:",
+        "answers": [
+            "JavaScript",
+            "terminal/bash",
+            "for loops",
+            "console.log"
+        ],
+        "correctAnswerIndex": "3"
+    },
+    {
+        "questionText": "String values must be enclosed within _____ when being assigned to variables.",
+        "answers": [
+            "commas",
+            "curly brackets",
+            "quotes",
+            "parenthesis"
+        ],
+        "correctAnswerIndex": "3"
+    },
+    {
+        "questionText": "Arrays in JavaScript can be used to store _____.",
+        "answers": [
+            "numbers and strings",
+            "other arrays",
+            "booleans",
+            "all of the above"
+        ],
+        "correctAnswerIndex": "3"
+    }
+]
