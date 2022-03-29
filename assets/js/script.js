@@ -106,10 +106,12 @@ var startQuiz = function () {
         if (questionIndex === questions.length) {
             // If user has answered all questions
             console.log("Quiz finished!");
+            endQuiz();
             clearInterval(timerIntervalID);
         }
         else if (time === 0) {
             console.log("Time over!");
+            endQuiz();
             clearInterval(timerIntervalID);
         }
     }, 1000);
@@ -150,12 +152,31 @@ var checkAnswer = function (event) {
         questionIndex++;
 
         if (questionIndex === questions.length) {
-            // End quiz
-
+            return;
         } else {
             updateQuestion();
         }
     }
+}
+
+var endQuiz = function () {
+    // If the conditions have been met, we'll change the elements on screen
+    questionEl.remove();
+
+    //Show elements of end game screen
+    var quizEndEl = document.createElement('div');
+    quizEndEl.innerHTML = `<h1>All done!</h1><p>Your final score is ${score}</p>`;
+    quizEndEl.className = 'end-screen';
+
+    var initialsInputEl = document.createElement('div');
+    initialsInputEl.className = "initialsInput";
+
+    initialsFormEl.innerHTML = `<span>Enter initials: </span><button class="btn submit-btn">Submit</button>`;
+    var initialsInputEl = document.createElement('input');
+    initialsInputEl.className = "initials-input";
+
+    quizEndEl.appendChild(initialsFormEl);
+    document.body.appendChild(quizEndEl);
 }
 
 startBtnEl.addEventListener(`click`, startQuiz);

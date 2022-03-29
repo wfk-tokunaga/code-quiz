@@ -19,7 +19,7 @@ header * {
 .intro {
     font-size: 40px;
     margin: auto;
-    width: 70%;
+    width: 60%;
     text-align: center;
 }
 
@@ -47,7 +47,7 @@ header * {
 .question {
     font-size: 40px;
     margin: auto;
-    width: 70%;
+    width: 60%;
     display: flex;
     flex-direction: column;
 }
@@ -55,4 +55,20 @@ header * {
 .result h3 {
     color: gray;
     font-weight: lighter;
+}
+
+.end-screen {
+    margin: auto;
+    font-size: 40px;
+    width: 60%;
+}
+
+.initialsInput {
+    display: inline;
+    /* flex-direction: row; */
+}
+
+.initialsInput button {
+    font-size: 25px;
+    width: auto;
 }
