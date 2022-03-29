@@ -4,9 +4,10 @@ var introEl = document.querySelector(`.intro`);
 
 var questionIndex = 0;
 
+
 var questions = [
     {
-        questionText: "A very useful tool used during development and debugging for printint content to the debugger is:",
+        questionText: "A very useful tool used during development and debugging for printing content to the debugger is:",
         answers: [
             "JavaScript",
             "terminal/bash",
@@ -34,6 +35,26 @@ var questions = [
             "all of the above"
         ],
         correctAnswerIndex: 3
+    },
+    {
+        questionText: "Commonly used data types DO Not include:",
+        answers: [
+            "strings",
+            "booleans",
+            "alerts",
+            "numbers"
+        ],
+        correctAnswerIndex: 2
+    },
+    {
+        questionText: "The condition in an if / else statement is enclosed with _____.",
+        answers: [
+            "quotes",
+            "curly brackets",
+            "parenthesis",
+            "square brackets"
+        ],
+        correctAnswerIndex: 2
     }
 ]
 
@@ -61,26 +82,33 @@ var answer4El = document.createElement(`button`);
 answer4El.className = "btn";
 answer4El.setAttribute("data-answer-number", 3);
 questionEl.appendChild(answer4El);
+var resultEl = document.createElement(`div`);
+resultEl.className = "result";
+var resultHrEl = document.createElement(`hr`);
+var resultTextEl = document.createElement(`h3`);
+resultEl.appendChild(resultHrEl);
+resultEl.appendChild(resultTextEl);
 
 var score = 0;
-var time = 10; //How long each quiz is
-var timeElapsed = 0;
+var time = 75; //How long each quiz is
+var penaltyTime = 5; // How much time is taken off for an incorrect answer
 
 // function that starts the quiz, sets counters to 0, starts the timer
 var startQuiz = function () {
+    // Set initial paramets
     score = 0;
-    time = 10;
+    time = 75;
 
     // Start timer
     var timerIntervalID = setInterval(() => {
         time--;
         timerEl.textContent = `Time: ${time} `;
-        if (questionIndex === questions.length - 1) {
+        if (questionIndex === questions.length) {
             // If user has answered all questions
             console.log("Quiz finished!");
             clearInterval(timerIntervalID);
         }
-        else if (timeElapsed === time) {
+        else if (time === 0) {
             console.log("Time over!");
             clearInterval(timerIntervalID);
         }
@@ -94,8 +122,9 @@ var startQuiz = function () {
     updateQuestion();
 }
 
+
+// Change text and answers of question to next in questions array
 var updateQuestion = function () {
-    // console.log(questions[0]);
     questionTextEl.textContent = questions[questionIndex].questionText;
     answer1El.textContent = `1. ${questions[questionIndex].answers[0]}`;
     answer2El.textContent = `2. ${questions[questionIndex].answers[1]}`;
@@ -104,13 +133,29 @@ var updateQuestion = function () {
 }
 
 var checkAnswer = function (event) {
-    var selectedAnswer = event.target;
-    console.log(`selected answer number: ${selectedAnswer.getAttribute("data-answer-number")}`);
-    console.log(questionIndex);
-    // Check to see the answer
+    if (event.target.matches('.btn')) {
+        var selectedAnswerNumber = JSON.parse(event.target.getAttribute("data-answer-number"));
+        var correctAnswerNumber = questions[questionIndex].correctAnswerIndex;
 
-    questionIndex++;
-    updateQuestion();
+        if (selectedAnswerNumber === correctAnswerNumber) {
+            score++;
+            resultTextEl.textContent = "Correct!";
+        } else {
+            score--;
+            resultTextEl.textContent = "Incorrect!";
+            time -= penaltyTime;
+        }
+        console.log(`Current score: ${score}`);
+        questionEl.appendChild(resultEl);
+        questionIndex++;
+
+        if (questionIndex === questions.length) {
+            // End quiz
+
+        } else {
+            updateQuestion();
+        }
+    }
 }
 
 startBtnEl.addEventListener(`click`, startQuiz);
