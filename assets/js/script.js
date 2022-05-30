@@ -2,7 +2,7 @@
 var timerEl = document.querySelector(`.timer`);
 // var introEl = document.querySelector(`.intro`);
 
-highScores = [];
+var highScores = [];
 
 var score = 0;
 var time = 75; //How long each quiz is
@@ -72,19 +72,19 @@ var questionTextEl = document.createElement(`h1`);
 questionEl.appendChild(questionTextEl);
 // set up question buttons
 var answer1El = document.createElement(`button`);
-answer1El.className = "btn";
+answer1El.className = "btn answer-btn";
 answer1El.setAttribute("data-answer-number", 0);
 questionEl.appendChild(answer1El);
 var answer2El = document.createElement(`button`);
-answer2El.className = "btn";
+answer2El.className = "btn answer-btn";
 answer2El.setAttribute("data-answer-number", 1);
 questionEl.appendChild(answer2El);
 var answer3El = document.createElement(`button`);
-answer3El.className = "btn";
+answer3El.className = "btn answer-btn";
 answer3El.setAttribute("data-answer-number", 2);
 questionEl.appendChild(answer3El);
 var answer4El = document.createElement(`button`);
-answer4El.className = "btn";
+answer4El.className = "btn answer-btn";
 answer4El.setAttribute("data-answer-number", 3);
 questionEl.appendChild(answer4El);
 var resultEl = document.createElement(`div`);
@@ -98,11 +98,37 @@ var initialsFormEl = document.createElement('div');
 initialsFormEl.className = "initials-form";
 var submitButtonEl = document.createElement("button");
 submitButtonEl.textContent = "Submit";
-submitButtonEl.className = "btn";
+submitButtonEl.className = "btn submit-btn";
 
 initialsFormEl.innerHTML = `<span>Enter initials: </span><input name='user-initials'></input>`;
 initialsFormEl.appendChild(submitButtonEl);
 
+// See which button was pressed, match on it and act accordingly
+var quizButtonHandler = function (event) {
+    switch (event.target.className) {
+        case "btn start-btn":
+            console.log("start btn hit");
+            startQuiz();
+            break;
+        case "btn answer-btn":
+            console.log("answer btn hit");
+            checkAnswer(event);
+            break;
+        case "btn submit-btn":
+            console.log("submit btn hit");
+            initialsFormHandler(event);
+            break;
+        case "btn back-btn":
+            console.log("back btn hit");
+            // initialsFormHandler(event);
+            break;
+        case "btn clear-btn":
+            console.log("clear btn hit");
+            clearScores();
+        default:
+            console.log("Something else was hit");
+    }
+}
 
 
 // function that starts the quiz, sets counters to 0, starts the timer
@@ -160,11 +186,11 @@ var checkAnswer = function (event) {
         }
         console.log(`Current score: ${score}`);
         questionEl.appendChild(resultEl);
-        questionIndex++;
 
         if (questionIndex === questions.length) {
             return;
         } else {
+            questionIndex++;
             updateQuestion();
         }
     }
@@ -184,8 +210,13 @@ var endQuiz = function () {
     document.body.appendChild(quizEndEl);
 }
 
+// When the user hits the "Submit" button
+// Logs initial + score object in highscores array
+// Updates local storage
+//
 var initialsFormHandler = function (event) {
     event.preventDefault();
+    console.log("initialsFormHandler()");
 
     var userInitials = document.querySelector(`input[name="user-initials"]`).value;
     if (!userInitials) {
@@ -193,14 +224,61 @@ var initialsFormHandler = function (event) {
         return false;
     }
     var result = { userInitials, score };
-    console.log(result.userInitials);
     console.log(result);
+    console.log(highScores);
+    highScores.push(result); //This isn't working oof
+    console.log(highScores);
+    // Wanna save to local storage every time the user inputs their new score
 
+    document.querySelector(".end-screen").remove();
+    console.log("HIGH SCORES" + JSON.stringify(highScores));
+    saveScores();
+    createScoresEl();
 
 }
 
-document.querySelector(`.start-btn`).addEventListener(`click`, startQuiz);
-// Is there a better way to do this? I know I wanna propogate
-questionEl.addEventListener(`click`, checkAnswer);
+var createScoresEl = function () {
+    var scoresPageEl = document.createElement("div");
+    scoresPageEl.className = "content-section high-scores";
+    scoresPageEl.innerHTML = `<h1>High scores</h1>`;
 
-submitButtonEl.addEventListener(`click`, initialsFormHandler);
+    var scoresTableEl = document.createElement("ol");
+    highScores.forEach(score => {
+        var appendScoreLi = document.createElement("li");
+        appendScoreLi.textContent = `${score.score} - ${score.userInitials}`;
+        console.log(score);
+        scoresTableEl.appendChild(appendScoreLi);
+    });
+    // scoresPageEl.appendChild(titleEl);
+    scoresPageEl.appendChild(scoresTableEl);
+
+    var backBtnEl = document.createElement("button");
+    backBtnEl.className = "btn back-btn";
+    backBtnEl.textContent = "Go back";
+    var clearBtnEl = document.createElement("button");
+    clearBtnEl.className = "btn clear-btn";
+    clearBtnEl.textContent = "Clear high scores";
+    scoresPageEl.appendChild(backBtnEl);
+    scoresPageEl.appendChild(clearBtnEl);
+
+    document.body.appendChild(scoresPageEl);
+
+}
+
+var clearScores = function () {
+    document.querySelector("div.high-scores").remove();
+    highScores = [];
+    saveScores();
+    createScoresEl();
+}
+
+var saveScores = function () {
+    localStorage.setItem("highScores", JSON.stringify(highScores));
+}
+
+var loadScores = function () {
+    highScores = localStorage.getItem("highScores");
+}
+
+loadScores();
+document.body.addEventListener('click', quizButtonHandler);

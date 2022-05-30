@@ -27,7 +27,6 @@ header * {
 .btn {
     background-color: navy;
     color: white;
-    /* width: 30%; */
     height: auto;
     font-size: 25px;
     margin: 10px 0;
@@ -78,11 +77,8 @@ header * {
     text-align: center;
 }
 
-/* .initialsInput {
-    display: inline;
+.content-section {
+    margin: auto;
+    font-size: 30;
+    width: 60%;
 }
-
-.initialsInput button {
-    font-size: 25px;
-    width: auto;
-} */
